@@ -3,6 +3,7 @@ set nocompatible              " be iMproved, required
 set history=1000
 set expandtab "Turn tabs into spaces
 set tabstop=2 "Tab = 2 spaces in normal mode
+autocmd BufRead,BufNewFile ~/Documents/Development/Code/knome/kgap/trunk/product/ksoft-webapp/src/main/webapp/* setlocal tabstop=4 noexpandtab shiftwidth=4 softtabstop=4
 syntax on
 set backspace=indent,eol,start
 set shiftwidth=2
@@ -37,7 +38,7 @@ set ruler
 filetype off
 
 " Left padding
-set foldcolumn=1
+set foldcolumn=1 
 
 " Se the prefered encoding of the files
 set fileencoding=utf-8
@@ -46,6 +47,10 @@ set encoding=utf-8
 set lazyredraw
 
 let mapleader=","
+
+" Split
+set splitbelow
+set splitright
 
 " ------------------------------------------
 "           VUNDLER AND PLUGINS
@@ -61,7 +66,10 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'kien/ctrlp.vim'
 Plugin 'chriskempson/vim-tomorrow-theme'
 Plugin 'bling/vim-airline'
+Bundle 'dkprice/vim-easygrep'
 Bundle 'altercation/vim-colors-solarized.git'
+Bundle 'scrooloose/nerdtree.git'
+Bundle "nelstrom/vim-visual-star-search"
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -75,23 +83,38 @@ filetype plugin indent on    " required
 " MAPS AND CONFIGURATION TO JUMP TO SPECIFIC COMMAND-T TARGETS AND FILES
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" The Silver Searcher
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+  
+  " bind \ (backward slash) to grep shortcut
+  command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+  nnoremap \ :Ag<SPACE>
+  " bind K to grep word under cursor
+  nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+endif
+
+
+
 "use the silver searcher (brews install the_silver_searcher)
 let g:ctrlp_user_command = 'ag %s -l --nocolor --ignore vendor/bundle -g ""'
+let g:ctrlp_working_path_mode = ''
+let g:ctrlp_by_filename = 1
+let g:ctrlp_open_new_file = 'v'
 
 map <leader>cc :CtrlPClearCache<cr>
-map <leader>gg :topleft 100 :split Gemfile<cr>
-" map <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
-map <leader>gv :CtrlP app/views<cr>
-map <leader>gc :CtrlP app/controllers<cr>
-map <leader>gm :CtrlP app/models<cr>
-map <leader>gh :CtrlP app/helpers<cr>
-map <leader>gl :CtrlP app/lib<cr>
-map <leader>gp :CtrlP public<cr>
-map <leader>gs :CtrlP public/stylesheets/saas<cr>
-map <leader>gf :CtrlP features<cr>
 map <leader>f :CtrlP<cr>
 map <leader>F :CtrlP %%<cr>
 map <leader>gt :CtrlPTag<cr>
+
+map <leader>ne :NERDTree<cr>
+
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLOR
