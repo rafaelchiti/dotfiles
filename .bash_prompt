@@ -24,7 +24,7 @@ git_prompt ()
 
     git_branch=$(git branch 2>/dev/null| sed -n '/^\*/s/^\* //p')
  
-    if [[ ! ${git_status} =~ "working directory clean" ]]; then
+    if [[ ! ${git_status} =~ "working tree clean" ]]; then
   git_color="${c_git_dirty}"
     else
   git_color=${c_git_clean}
