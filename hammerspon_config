@@ -1,4 +1,4 @@
--- (File nam: init.lua)
+-- File location: ~/.hammerspoon/init.lua
 -- Add support for Vim like movement with hammerspoon
 -- To improve repetition, use:
 -- defaults write NSGlobalDomain InitialKeyRepeat -int 12
