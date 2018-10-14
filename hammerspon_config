@@ -1,0 +1,21 @@
+-- (File nam: init.lua)
+-- Add support for Vim like movement with hammerspoon
+-- To improve repetition, use:
+-- defaults write NSGlobalDomain InitialKeyRepeat -int 12
+-- defaults write NSGlobalDomain KeyRepeat -int 1.02
+loggerInfo = hs.logger.new("Rafa's settings", "info")
+
+local function keyCode(key, modifiers)
+  modifiers = modifiers or {}
+
+  return function()
+    hs.eventtap.event.newKeyEvent(modifiers, string.lower(key), true):post()
+    hs.timer.usleep(1000)
+    hs.eventtap.event.newKeyEvent(modifiers, string.lower(key), false):post()
+  end
+end
+
+hs.hotkey.bind({'ctrl'}, 'j', keyCode('down'), nil, keyCode('down'))
+hs.hotkey.bind({'ctrl'}, 'k', keyCode('up'), nil, keyCode('up'))
+hs.hotkey.bind({'ctrl'}, 'h', keyCode('left'), nil, keyCode('left'))
+hs.hotkey.bind({'ctrl'}, 'l', keyCode('right'), nil, keyCode('right'))
